@@ -2,7 +2,7 @@
     <div class="card shadow card-product">
         <img :src="'assets/images/' + product.gambar" class="card-img-top" alt="product" srcset="">
         <div class="card-body">
-            <h5 class="card-body">{{ product.nama }}}</h5>
+            <h5 class="card-body">{{ product.nama }}</h5>
             <p class="card-text">
                 Harga : Rp. {{ product.harga }}
             </p>
