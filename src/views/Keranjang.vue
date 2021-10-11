@@ -1,6 +1,6 @@
 <template>
   <div class="keranjang">
-    <Navbar />
+    <Navbar :updateKeranjang="keranjangs"/>
 
     <div class="container">
       <!-- breadcrumb -->
@@ -55,7 +55,7 @@
 									<td align="right">Rp. {{ keranjang.products.harga }}</td>
 									<td align="right"><strong>Rp. {{ keranjang.products.harga * keranjang.jumlah_pesanan }}</strong></td>
 									<td align="center" class="text-danger">
-										<b-icon-trash></b-icon-trash>
+										<b-icon-trash @click="hapusKeranjang(keranjang.id)"></b-icon-trash>
 									</td>
                 </tr>
 
@@ -79,7 +79,7 @@
 
 <script>
 import Navbar from "@/components/Navbar.vue";
-import axios from 'axios'
+import axios from 'axios';
 
 export default {
   name: "Keranjang",
@@ -94,7 +94,30 @@ export default {
 	methods: {
 		setKeranjangs(data) {
 			this.keranjangs = data;
-		}
+		},
+    hapusKeranjang(id) {
+      axios.delete('http://localhost:3000/keranjangs/'+id)
+        .then((response) => {
+            // handle success
+            console.log('Berhasil : ', response);
+        })
+        .catch((error) => {
+            // handle error
+            console.log('Gagal : ', error);
+        });   
+   
+      // update data keranjang
+      axios.get('http://localhost:3000/keranjangs')
+        .then((response) => {
+            // handle success
+            this.setKeranjangs(response.data);
+            console.log('Berhasil : ', response);
+        })
+        .catch((error) => {
+            // handle error
+            console.log('Gagal : ', error);
+        });
+    },
 	},
 	mounted() {
 		axios.get('http://localhost:3000/keranjangs')
