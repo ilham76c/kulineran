@@ -75,23 +75,28 @@ export default {
             this.product = data;
         },
         pemesanan() {
-            this.pesan.products = this.product;
-            axios.post('http://localhost:3000/keranjangs', this.pesan)
-                .then((response) => {
-                    // handle success
-                    // this.$toast.success('Sukses masuk keranjang', {
-                        
-                    //     type: 'success',
-                    //     position: 'top-right',
-                    //     duration: 3000,
-                    //     dismissible: true,
-                    // });
-                    console.log('Berhasil : ', response);
-                })
-                .catch((error) => {
-                    // handle error
-                    console.log('Gagal : ', error);
-                });
+            if (this.pesan.jumlah_pesanan) {
+                this.pesan.products = this.product;
+                axios.post('http://localhost:3000/keranjangs', this.pesan)
+                    .then((response) => {
+                        // handle success
+                        // this.$toast.success('Sukses masuk keranjang', {
+                            
+                        //     type: 'success',
+                        //     position: 'top-right',
+                        //     duration: 3000,
+                        //     dismissible: true,
+                        // });
+                        this.$router.push({ path: '/keranjang' })
+                        console.log('Berhasil : ', response);
+                    })
+                    .catch((error) => {
+                        // handle error
+                        console.log('Gagal : ', error);
+                    });
+            } else {
+                alert('Jumlah pesanan harus diisi')
+            }
         }
     },
     mounted() {
