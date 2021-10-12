@@ -73,6 +73,25 @@
           </div>
         </div>
       </div>
+
+      <!-- form untuk checkout -->
+      <div class="row justify-content-end">
+        <div class="col-md-4">
+          <form class="mt-4" v-on:submit.prevent>
+            <div class="form-group">
+              <label for="nama">Nama :</label>
+              <input type="text" class="form-control" v-model="pesan.nama">
+            </div>
+            <div class="form-group">
+              <label for="noMeja">Nomor Meja :</label>
+              <input type="text" class="form-control" v-model="pesan.noMeja">
+            </div>
+            <button type="submit" class="btn btn-success float-right" @click="checkout">
+              <b-icon-cart></b-icon-cart> Pesan
+            </button>
+        </form>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -89,6 +108,7 @@ export default {
 	data() {
 		return {
 			keranjangs: [],
+      pesan: {},
 		}
 	},
 	methods: {
@@ -118,6 +138,31 @@ export default {
             console.log('Gagal : ', error);
         });
     },
+    checkout() {
+      if (this.pesan.nama && this.pesan.noMeja) {
+        this.pesan.keranjangs = this.keranjangs;
+        axios.post('http://localhost:3000/pesanans', this.pesan)
+          .then((response) => {
+            // hapus semua keranjangs
+            this.keranjangs.map((item) => {
+               return axios.delete('http://localhost:3000/keranjangs/'+item.id)
+                .catch((error) => {
+                    // handle error
+                    console.log('Gagal : ', error);
+                });  
+            });
+
+            this.$router.push({ path: '/pesanan-sukses' })
+            console.log('Berhasil : ', response);
+          })
+          .catch((error) => {
+              // handle error
+              console.log('Gagal : ', error);
+          });
+      } else {
+        alert('Nama dan Nomor Meja harus diisi!');
+      }
+    }
 	},
 	mounted() {
 		axios.get('http://localhost:3000/keranjangs')
