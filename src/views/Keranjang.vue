@@ -99,6 +99,7 @@
 <script>
 import Navbar from "@/components/Navbar.vue";
 import axios from 'axios';
+import { API_URL } from '../utils/constant';
 
 export default {
   name: "Keranjang",
@@ -116,7 +117,7 @@ export default {
 			this.keranjangs = data;
 		},
     hapusKeranjang(id) {
-      axios.delete('http://localhost:3000/keranjangs/'+id)
+      axios.delete(`${API_URL}/keranjangs/`+id)
         .then((response) => {
             // handle success
             console.log('Berhasil : ', response);
@@ -127,7 +128,7 @@ export default {
         });   
    
       // update data keranjang
-      axios.get('http://localhost:3000/keranjangs')
+      axios.get(`${API_URL}/keranjangs`)
         .then((response) => {
             // handle success
             this.setKeranjangs(response.data);
@@ -141,11 +142,11 @@ export default {
     checkout() {
       if (this.pesan.nama && this.pesan.noMeja) {
         this.pesan.keranjangs = this.keranjangs;
-        axios.post('http://localhost:3000/pesanans', this.pesan)
+        axios.post(`${API_URL}/pesanans`, this.pesan)
           .then((response) => {
             // hapus semua keranjangs
             this.keranjangs.map((item) => {
-               return axios.delete('http://localhost:3000/keranjangs/'+item.id)
+               return axios.delete(`${API_URL}/keranjangs/`+item.id)
                 .catch((error) => {
                     // handle error
                     console.log('Gagal : ', error);
@@ -165,7 +166,7 @@ export default {
     }
 	},
 	mounted() {
-		axios.get('http://localhost:3000/keranjangs')
+		axios.get(`${API_URL}/keranjangs`)
 			.then((response) => {
 					// handle success
 					this.setKeranjangs(response.data);

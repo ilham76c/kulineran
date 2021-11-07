@@ -60,6 +60,7 @@
 
 <script>
 import axios from 'axios'
+import API_URL from '../utils/constant'
 
 export default {
     name: 'navbar',
@@ -75,7 +76,7 @@ export default {
       }
     },
     mounted() {
-       axios.get('http://localhost:3000/keranjangs')
+       axios.get(`${API_URL}/keranjangs`)
         .then((response) => {
           // handle success
           this.setJumlah(response.data);

@@ -58,6 +58,7 @@
 <script>
 import Navbar from '@/components/Navbar.vue'
 import axios from 'axios'
+import API_URL from '../utils/constant'
 
 export default {
     name: 'FoodDetail',
@@ -77,7 +78,7 @@ export default {
         pemesanan() {
             if (this.pesan.jumlah_pesanan) {
                 this.pesan.products = this.product;
-                axios.post('http://localhost:3000/keranjangs', this.pesan)
+                axios.post(`${API_URL}/keranjangs`, this.pesan)
                     .then((response) => {
                         // handle success
                         // this.$toast.success('Sukses masuk keranjang', {
@@ -100,7 +101,7 @@ export default {
         }
     },
     mounted() {
-        axios.get('http://localhost:3000/products/'+this.$route.params.id)
+        axios.get(`${API_URL}/products/`+this.$route.params.id)
         .then((response) => {
             // handle success
             this.setProducts(response.data);

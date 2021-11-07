@@ -39,6 +39,7 @@
 import Navbar from '../components/Navbar.vue'
 import CardProduct from '../components/CardProduct.vue'
 import axios from 'axios'
+import { API_URL } from '../utils/constant'
 
 export default {
     name: 'Foods',
@@ -57,7 +58,7 @@ export default {
             this.products = data;
         },
         searchFood() {
-            axios.get('http://localhost:3000/products?q='+this.search)
+            axios.get(`${API_URL}/products?q=`+this.search)
                 .then((response) => {
                     // handle success
                     this.setProducts(response.data);
@@ -70,7 +71,7 @@ export default {
         }
     },
     mounted() {
-        axios.get('http://localhost:3000/products')
+        axios.get(`${API_URL}/products`)
         .then((response) => {
             // handle success
             this.setProducts(response.data);
